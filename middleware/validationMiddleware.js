@@ -1,7 +1,16 @@
-const { body } = require("express-validator");
+import { body } from "express-validator";
 
-const emailValidator = body("email").isEmail().normalizeEmail();
-const passwordValidator = body("password").isLength({ min: 6 }).trim().escape();
+export const emailValidator = [
+  body("email")
+    .isEmail()
+    .withMessage("Invalid email format")
+    .normalizeEmail()
+];
 
-module.exports = { emailValidator, passwordValidator };
- 
+export const passwordValidator = [
+  body("password")
+    .isLength({ min: 6 })
+    .withMessage("Password must be at least 6 characters")
+    .trim()
+    .escape()
+];

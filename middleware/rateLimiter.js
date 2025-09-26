@@ -1,4 +1,4 @@
-const rateLimit = require('express-rate-limit');
+import rateLimit from 'express-rate-limit';
 
 const keyByIp = (req) =>
   req.ip ||
@@ -6,7 +6,7 @@ const keyByIp = (req) =>
   req.connection?.remoteAddress ||
   'unknown';
 
-const registerLimiter = rateLimit({
+export const registerLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 5,
   standardHeaders: true,
@@ -19,7 +19,7 @@ const registerLimiter = rateLimit({
   },
 });
 
-const loginLimiter = rateLimit({
+export const loginLimiter = rateLimit({
   windowMs: 10 * 60 * 1000,
   max: 5,
   standardHeaders: true,
@@ -32,6 +32,3 @@ const loginLimiter = rateLimit({
     });
   },
 });
-
-module.exports = { registerLimiter, loginLimiter };
- 

@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const voteSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
@@ -16,5 +16,5 @@ const pollSchema = new mongoose.Schema({
 
 pollSchema.index({ organisationId: 1 });
 
-module.exports = mongoose.model("Poll", pollSchema);
- 
+const Poll = mongoose.model("Poll", pollSchema);
+export default Poll;

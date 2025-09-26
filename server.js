@@ -1,12 +1,13 @@
-const express = require('express');
-const https = require('https');
-const fs = require('fs');
-const cors = require('cors');
-const helmet = require('helmet');
-const dotenv = require('dotenv');
-const mongoose = require('mongoose');
-const authRoutes = require('./routes/authRoutes');
-const { protect } = require('./middleware/authMiddleware');
+import express from 'express';
+import https from 'https';
+import fs from 'fs';
+import cors from 'cors';
+import helmet from 'helmet';
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
+
+import authRoutes from './routes/authRoutes.js';
+import { protect } from './middleware/authMiddleware.js';
 
 dotenv.config();
 
@@ -43,12 +44,12 @@ const sslOptions = {
 
 // Connect to MongoDB and start server
 mongoose.connect(process.env.MONGO_URI)
-.then(() => {
-  console.log('✅ Connected to MongoDB Atlas');
-  https.createServer(sslOptions, app).listen(PORT, () => {
-    console.log(`🚀 Backend running securely at https://localhost:${PORT}`);
+  .then(() => {
+    console.log('✅ Connected to MongoDB Atlas');
+    https.createServer(sslOptions, app).listen(PORT, () => {
+      console.log(`🚀 Backend running securely at https://localhost:${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error('❌ MongoDB connection error:', err.message);
   });
-})
-.catch((err) => {
-  console.error('❌ MongoDB connection error:', err.message);
-});

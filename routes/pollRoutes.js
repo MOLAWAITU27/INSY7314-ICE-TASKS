@@ -1,14 +1,14 @@
-const express = require("express");
-const { protect } = require("../middleware/authMiddleware");
-const { requireRole } = require("../middleware/roleMiddleware");
-const {
+import express from "express";
+import { protect } from "../middleware/authMiddleware.js";
+import { requireRole } from "../middleware/roleMiddleware.js";
+import {
   createPoll,
   votePoll,
   getPollResults,
   getOrgPolls,
   closePoll,
   openPoll
-} = require("../controllers/pollController");
+} from "../controllers/pollController.js";
 
 const router = express.Router();
 
@@ -19,5 +19,4 @@ router.get("/get-polls/:organisationId", protect, getOrgPolls);
 router.post("/close/:pollId", protect, requireRole("manager"), closePoll);
 router.post("/open/:pollId", protect, requireRole("manager"), openPoll);
 
-module.exports = router;
- 
+export default router;

@@ -1,7 +1,11 @@
-const express = require('express');
-const cors = require('cors');
-const helmet = require('helmet');
-const dotenv = require('dotenv');
+import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import dotenv from 'dotenv';
+
+import organisationRoutes from './routes/organisationRoutes.js';
+import pollRoutes from './routes/pollRoutes.js';
+import authRoutes from './routes/authRoutes.js';
 
 dotenv.config();
 
@@ -28,10 +32,6 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
-const organisationRoutes = require('./routes/organisationRoutes');
-const pollRoutes = require('./routes/pollRoutes');
-const authRoutes = require('./routes/authRoutes');
-
 app.use('/api/organisations', organisationRoutes);
 app.use('/api/polls', pollRoutes);
 app.use('/api/auth', authRoutes);
@@ -45,4 +45,12 @@ app.get('/test', (req, res) => {
   res.json({ message: 'Testing that PulseVote API running!' });
 });
 
-module.exports = app;
+// Health check endpoint for unit testing
+app.get('/health', (req, res) => 
+  res.status(200).json({
+    ok: true,
+    ts: Date.now()
+  })
+);
+
+export default app;

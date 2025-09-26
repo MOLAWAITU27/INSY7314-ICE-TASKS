@@ -16,7 +16,7 @@ app.use(
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
       fontSrc: ["'self'", "https://fonts.gstatic.com"],
       imgSrc: ["'self'", "data:"],
-      connectSrc: ["'self'", "http://localhost:5000"], // adjust if your backend runs on a different port
+      connectSrc: ["'self'", "http://localhost:5000"], // adjust if needed
     },
   })
 );
@@ -24,6 +24,14 @@ app.use(
 app.use(cors());
 app.use(express.json());
 
+// Routes
+const organisationRoutes = require('./routes/organisationRoutes');
+const pollRoutes = require('./routes/pollRoutes');
+
+app.use('/api/organisations', organisationRoutes);
+app.use('/api/polls', pollRoutes);
+
+// Test endpoints
 app.get('/', (req, res) => {
   res.send('PulseVote API running!');
 });

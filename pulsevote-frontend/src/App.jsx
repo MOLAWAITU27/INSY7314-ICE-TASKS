@@ -11,16 +11,26 @@ function App() {
   return (
     <Router>
       <Layout>
+        {/* 🚨 CSP violation: loading image from untrusted domain */}
+        <img
+          src="https://untrusted.com/logo.png"
+          alt="Untrusted Logo"
+          style={{ width: "150px", margin: "20px auto", display: "block" }}
+        />
+
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/logout" element={<LogoutPage />} />
-          <Route path="/dashboard" element={
-            <ProtectedRoute>
-              <DashboardPage />
-            </ProtectedRoute>
-          } />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <DashboardPage />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </Layout>
     </Router>

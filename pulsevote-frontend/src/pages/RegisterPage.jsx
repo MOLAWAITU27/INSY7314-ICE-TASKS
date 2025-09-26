@@ -1,6 +1,6 @@
-// src/pages/RegisterPage.jsx
 import { useState } from 'react';
 import axios from 'axios';
+import { isValidEmail, isStrongPassword } from '../utils/validators';
 
 function RegisterPage() {
   const [email, setEmail] = useState("");
@@ -9,9 +9,24 @@ function RegisterPage() {
   const [error, setError] = useState("");
 
   const handleRegister = async () => {
+    if (!email || !password) {
+      alert("❌ Email and password are required.");
+      return;
+    }
+
+    if (!isValidEmail(email)) {
+      alert("❌ Invalid email format.");
+      return;
+    }
+
+    if (!isStrongPassword(password)) {
+      alert("❌ Weak password. Must be 8+ characters, include letters and numbers.");
+      return;
+    }
+
     try {
       await axios.post("/api/auth/register", { email, password });
-      setMessage("Registration successful. You may now log in.");
+      setMessage("✅ Registration successful. You may now log in.");
       setError("");
     } catch (err) {
       setError("Registration failed. Try a different email.");
@@ -32,4 +47,3 @@ function RegisterPage() {
 }
 
 export default RegisterPage;
- 

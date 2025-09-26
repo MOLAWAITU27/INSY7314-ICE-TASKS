@@ -1,7 +1,7 @@
-// src/pages/LoginPage.jsx
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { isValidEmail, isStrongPassword } from '../utils/validators';
 
 function LoginPage() {
   const [email, setEmail] = useState("test@example.com");
@@ -10,6 +10,21 @@ function LoginPage() {
   const navigate = useNavigate();
 
   const handleLogin = async () => {
+    if (!email || !password) {
+      alert("❌ Email and password are required.");
+      return;
+    }
+
+    if (!isValidEmail(email)) {
+      alert("❌ Invalid email format.");
+      return;
+    }
+
+    if (!isStrongPassword(password)) {
+      alert("❌ Weak password. Must be 8+ characters, include letters and numbers.");
+      return;
+    }
+
     try {
       const res = await axios.post("/api/auth/login", { email, password });
       localStorage.setItem("token", res.data.token);
@@ -31,4 +46,3 @@ function LoginPage() {
 }
 
 export default LoginPage;
- 

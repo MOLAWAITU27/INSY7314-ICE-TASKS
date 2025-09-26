@@ -7,6 +7,9 @@ dotenv.config();
 
 const app = express();
 
+// Trust proxy for accurate IP detection behind reverse proxies
+app.set('trust proxy', 1);
+
 // Apply Helmet with custom Content Security Policy
 app.use(
   helmet.contentSecurityPolicy({
@@ -27,9 +30,11 @@ app.use(express.json());
 // Routes
 const organisationRoutes = require('./routes/organisationRoutes');
 const pollRoutes = require('./routes/pollRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 app.use('/api/organisations', organisationRoutes);
 app.use('/api/polls', pollRoutes);
+app.use('/api/auth', authRoutes);
 
 // Test endpoints
 app.get('/', (req, res) => {
